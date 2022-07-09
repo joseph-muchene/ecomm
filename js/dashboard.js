@@ -1,3 +1,33 @@
+const category = (document.getElementById("category-items").onchange = (
+  event
+) => {
+  // prevent default
+  document.getElementById("submit-btn").onclick = function (e) {
+    e.preventDefault();
+    const name = document.getElementById("name").value;
+    const description = document.getElementById("description").value;
+    const price = document.getElementById("price").value;
+
+    //   firebase collection
+    firebase
+      .firestore()
+      .collection("products")
+      .doc()
+      .set({
+        name,
+        description,
+        price,
+        category: event.target.value,
+        images: filesuploaded,
+      })
+      .then(() => {
+        // alert("document added successfully");
+        window.location.reload();
+      })
+      .catch((err) => console.log(err.message));
+  };
+});
+
 const uploader = new Uploader({
   // Get production API keys from Upload.io
   apiKey: "free",
@@ -12,26 +42,6 @@ function uploadFiles(e) {
 filesuploaded.length === 0
   ? (document.getElementById("uploadText").innerHTML = "zero files selected")
   : "";
-// prevent default
-document.getElementById("submit-btn").onclick = function (e) {
-  e.preventDefault();
-  const name = document.getElementById("name").value;
-  const description = document.getElementById("description").value;
-  const price = document.getElementById("price").value;
 
-  //   firebase collection
-  firebase
-    .firestore()
-    .collection("products")
-    .doc()
-    .set({
-      name,
-      description,
-      price,
-      images: filesuploaded,
-    })
-    .then(() => {
-      alert("document added successfully");
-    })
-    .catch((err) => console.log(err.message));
-};
+
+  
